@@ -10,10 +10,10 @@ const requireSignin = expressJwt({
 });
 const addMessocycle = async (req, res) => {
   
-  const {warmUp,  coolDown,  exercises, userId} = req.body;
+  const {warm_up,  cool_down,  exercises, userId} = req.body;
   const messocycle =  Messocycle()
-  messocycle.warmUp = warmUp
-  messocycle.coolDown = coolDown
+  messocycle.warm_up = warm_up
+  messocycle.cool_down = cool_down
   messocycle.exercises = exercises
   messocycle.userId = userId
   console.log(messocycle)

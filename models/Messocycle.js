@@ -12,8 +12,8 @@ const ExerciseSchema = new Schema({
 })
 
 const messocycleSchema = new Schema({
-  warmUp: { type: Number, required: true },
-  coolDown: { type: Number, required: true },
+  warm_up: { type: Number, required: true },
+  cool_down: { type: Number, required: true },
   date: { type: Date, required: true , default:Date.now},
   userId: {type: String, required: true},
   exercises: { type: [ExerciseSchema]}
