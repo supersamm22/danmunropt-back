@@ -9,7 +9,7 @@ const requireSignin = expressJwt({
   algorithms: ['HS256']
 });
 const addNutrition = async (req, res) => {
-  const { userId, wake_up, alcohol,alcohol_cal, water, date, meals  } = req.body;
+  const { userId, wake_up, alcohol,alcohol_cal, water, date, meals ,comment } = req.body;
   if (!userId || !wake_up || !water || !date || !meals) {
     return res.status(400).json({ msg: 'Please enter all fields' });
   }
@@ -20,6 +20,7 @@ const addNutrition = async (req, res) => {
   }).catch(()=>{  })
 
   nutrition.wake_up = wake_up
+  nutrition.comment = comment
   nutrition.alcohol = alcohol
   nutrition.alcohol_cal = alcohol_cal
   nutrition.water = water

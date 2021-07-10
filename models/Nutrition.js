@@ -7,10 +7,12 @@ const MealSchema = new Schema({
   calories: { type: Number, required: true },
   protein: { type: Number, required: true },
   carbohydrates: { type: Number, required: true },
-  fats: { type: Number, required: true }
+  fats: { type: Number, required: true },
+  comment: { type: String, required: false }
 })
 
 const exerciseSchema = new Schema({
+  comment: { type: String, required: false },
   userId: { type: String, required: true },
   wake_up: { type: Date, required: true },
   alcohol: { type: String, required: false },
