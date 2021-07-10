@@ -9,12 +9,18 @@ const requireSignin = expressJwt({
   algorithms: ['HS256']
 });
 const addHabbit = async (req, res) => {
-  
-  const {warm_up,  cool_down,  exercises, userId} = req.body;
-  const habbit =  Habbit()
-  habbit.warm_up = warm_up
-  habbit.cool_down = cool_down
-  habbit.exercises = exercises
+  const {week, userId, habbits} = req.body;
+  if (!userId || !week  || !habbits) {
+    return res.status(400).json({ msg: 'Please enter all fields' });
+  }
+
+  let habbit = null 
+  Habbit.findOne({userId,week}).then((n) => {
+    habbit = n
+  }).catch(()=>{  })
+
+  habbit.week = week
+  habbit.habbits = habbits
   habbit.userId = userId
   habbit.save((err, habbit) => {
     if (err) {
@@ -25,7 +31,11 @@ const addHabbit = async (req, res) => {
   })            
 }
 const getHabbits = async (req, res) => {
-  const habbit = await Habbit.find({userId:req.query.userId})
+  const { userId, week  } = req.query;
+  if (!userId || !week ) {
+    return res.status(400).json({ msg: 'Fields are missing' });
+  }
+  const habbit = await Habbit.find({userId,week})
   console.log(habbit)
   if (habbit != null ) {
     return res.status(200).json(habbit)
