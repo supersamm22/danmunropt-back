@@ -12,11 +12,11 @@ const MealSchema = new Schema({
 
 const exerciseSchema = new Schema({
   userId: { type: String, required: true },
-  wakeUp: { type: Date, required: true },
+  wake_up: { type: Date, required: true },
   alcohol: { type: Boolean, required: true },
-  alcoholTotal: { type: Number, required: true },
+  alcoholCal: { type: Number, required: true },
   water: { type: Number, required: true },
-  date: { type: Date, required: true , default:Date.now},
+  date: { type: String, required: true },
   meals: { type: [MealSchema]}
 })
 
