@@ -16,8 +16,8 @@ const WeakSchema = new Schema({
 const exerciseSchema = new Schema({
   userId: { type: String, required: true },
   date: { type: Date, required: true , default:Date.now},
-  habbits: { type: [WeakSchema]}
+  habits: { type: [WeakSchema]}
 })
 
-const Exercise = mongoose.model('Habbit', exerciseSchema);
+const Exercise = mongoose.model('Habit', exerciseSchema);
 module.exports = Exercise;

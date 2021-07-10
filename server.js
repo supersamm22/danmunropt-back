@@ -8,7 +8,7 @@ dotenv.config();
 
 const authRouter = require('./routes/api/auth.js');
 const userRouter = require("./routes/api/users")
-const habbitRouter = require("./routes/api/habbit")
+const habitRouter = require("./routes/api/habit")
 const messocycleRouter = require("./routes/api/messocycle")
 const nutritionRouter = require("./routes/api/nutrition")
 
@@ -23,7 +23,7 @@ app.use('/', userRouter)
 app.use('/auth', authRouter);
 app.use('/messocycles',messocycleRouter)
 app.use('/nutritions',nutritionRouter)
-app.use('/habbits',habbitRouter)
+app.use('/habits',habitRouter)
 
 app.use(function (err, req, res, next) {
   if (err.name === "UnauthorizedError") {
