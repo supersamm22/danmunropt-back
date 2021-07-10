@@ -3,51 +3,12 @@ const Habbit = require('../../models/Habbit');
 const expressJwt = require('express-jwt');
 const habbitRouter = Router();
 
-const getHabbits = async (req, res) => {
-  try {
-    const habbits = await Habbits.find().select("name isAdmin email reports");
-    if (!habbits) throw Error('No habbits exist');
-    res.json({ habbits: habbits });
-  } catch (e) {
-    res.status(400).json({ msg: e.message });
-  }
-}
-//---
 const requireSignin = expressJwt({
   secret: 'secret',
   habbitProperty: "auth",
   algorithms: ['HS256']
 });
-//---
-const isAdmin = async (req, res, next) => {
-  const habbit = await Habbits.findById(req.auth.id)
-  if (habbit instanceof Habbits) {
-    if (habbit.isAdmin) {
-      next()
-    } else {
-      return res.status(403).json({ msg: "Unauthorized access!" })
-    }
-  } else {
-    return res.status(404).json({ msg: "Connection Error" })
-  }
-
-}
-//---
-const checkAdmin = async (req, res) => {
-  const habbit = await Habbits.findById(req.auth.id)
-  if (habbit instanceof Habbits) {
-    if (habbit.isAdmin) {
-      res.status(200).json({ isAdmin: true })
-    } else {
-      return res.status(403).json({ msg: "Unauthorized access!" })
-    }
-  } else {
-    return res.status(404).json({ msg: "Connection Error" })
-  }
-
-}
-//---
-const addReport = async (req, res) => {
+const addHabbit = async (req, res) => {
   const report = req.body.data;
   const habbit = await Habbits.findById(req.auth.id)
   habbit.reports.push(report);
@@ -59,11 +20,13 @@ const addReport = async (req, res) => {
     }
   })
 }
-const getMyReport = async (req, res) => {
+const getHabbits = async (req, res) => {
   // we get the habbit that entered the post.
-  const habbit = await Habbits.findById(req.auth.id)
-  if (habbit instanceof Habbits) {
-    const report = habbit.reports.pop()
+  console.log(req)
+  const habbit = await Habbits.find()
+  console.log(habbit)
+  if (habbit != null ) {
+    const report = habbit.pop()
     return res.status(200).json({ report })
   } else {
     return res.status(404).json({ msg: "Unable to find habbit" })
@@ -82,8 +45,6 @@ const addComment = async (req, res) => {
   } else {
     return res.status(400).json({ msg: "Unable to find poster " })
   }
-
-
 
   const habbit = await Habbits.findById(habbitId)
   if (habbit instanceof Habbits) {
@@ -105,15 +66,9 @@ const addComment = async (req, res) => {
 }
 
 //only admin can get all the habbits.
-habbitRouter.get('/', requireSignin, isAdmin, getHabbits);
+habbitRouter.get('/habbits', requireSignin, getHabbits);
 //to add report of the habbit
-habbitRouter.post('/report', requireSignin, addReport);
-//to get his own report
-habbitRouter.get("/myreport", requireSignin, getMyReport);
-//add newComment
-habbitRouter.post("/addComment", requireSignin, isAdmin, addComment);
-
-habbitRouter.get("/isAdmin", requireSignin, checkAdmin)
+habbitRouter.put('/habbits', requireSignin, addHabbit);
 
 //that is allowed 
 module.exports = habbitRouter;

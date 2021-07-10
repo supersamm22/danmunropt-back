@@ -17,8 +17,8 @@ const exerciseSchema = new Schema({
   userId: { type: String, required: true },
   points: { type: Number, required: true },
   date: { type: Date, required: true , default:Date.now},
-  meals: { type: [WeakSchema]}
+  habbits: { type: [WeakSchema]}
 })
 
-const Exercise = mongoose.model('Nutrition', exerciseSchema);
+const Exercise = mongoose.model('Habbit', exerciseSchema);
 module.exports = Exercise;

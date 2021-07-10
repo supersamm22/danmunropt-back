@@ -22,7 +22,8 @@ const authRouter = express.Router();
 authRouter.post("/login", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password
-
+   
+  console.log(req.body)
   // Simple validation
   if (!email || !password) {
     return res.status(400).json({ msg: 'Please enter all fields' });
@@ -31,7 +32,7 @@ authRouter.post("/login", async (req, res) => {
   try {
     // Check for existing user
     const user = await User.findOne({ email });
-    if (!user) throw Error('User does not exist');
+    if (!user) throw Error('User does not exist'); 
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw Error('Invalid credentials');
@@ -62,6 +63,7 @@ authRouter.post("/login", async (req, res) => {
  */
 
 authRouter.post('/register', async (req, res) => {
+  console.log(req.body)
   const { name, email, password } = req.body;
 
   // Simple validation
@@ -129,3 +131,4 @@ exports.requireSignin = expressJwt({
   algorithms: ['HS256']
 });
 
+ 

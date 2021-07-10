@@ -8,8 +8,8 @@ dotenv.config();
 
 const authRouter = require('./routes/api/auth.js');
 const userRouter = require("./routes/api/users")
-
-
+const habbitRouter = require("./routes/api/habbits")
+const messocycleRouter = require("./routes/api/messocycle")
 
 
 const app = express();
@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use('/', userRouter)
 app.use('/auth', authRouter);
+app.use('/messocycles',messocycleRouter)
 app.use(function (err, req, res, next) {
   if (err.name === "UnauthorizedError") {
     res.status(401).json({ msg: "Unauthorized Request" });
@@ -31,12 +32,12 @@ mongoose
     `mongodb+srv://pearl24:Samhiba24@cluster0.qrlyk.mongodb.net/pearl?retryWrites=true&w=majority`,
     {
       useCreateIndex: true,
-      useNewUrlParser: true,
+      useNewUrlParser: true, 
       useUnifiedTopology: true,
     }
   )
   .then(() => console.log('>> Connected to database <<'))
-  .catch((err) => console.log(err.message));
+  .catch((err) => console.error(  err.message));
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

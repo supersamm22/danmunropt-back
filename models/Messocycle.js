@@ -8,16 +8,17 @@ const ExerciseSchema = new Schema({
   load: { type: Number, required: true },
   rest: { type: Number, required: true },
   tempo: { type: Number, required: true },
-  notes: { type: String, required: true }
+  notes: { type: String, required: false ,default: ""}
 })
 
 const messocycleSchema = new Schema({
   wakeUp: { type: Date, required: true },
-  alcohol: { type: Boolean, required: true },
+  // alcohol: { type: Boolean, required: true },
   alcoholTotal: { type: Number, required: true },
   water: { type: Number, required: true },
   date: { type: Date, required: true , default:Date.now},
-  exercise: { type: [ExerciseSchema]}
+  userId: {type: String, required: true},
+  exercises: { type: [ExerciseSchema]}
 })
 
 const Exercise = mongoose.model('Messocycle', messocycleSchema);
