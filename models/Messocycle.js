@@ -12,10 +12,8 @@ const ExerciseSchema = new Schema({
 })
 
 const messocycleSchema = new Schema({
-  wakeUp: { type: Date, required: true },
-  // alcohol: { type: Boolean, required: true },
-  alcoholTotal: { type: Number, required: true },
-  water: { type: Number, required: true },
+  warmUp: { type: Number, required: true },
+  coolDown: { type: Number, required: true },
   date: { type: Date, required: true , default:Date.now},
   userId: {type: String, required: true},
   exercises: { type: [ExerciseSchema]}
