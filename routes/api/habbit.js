@@ -18,6 +18,9 @@ const addHabbit = async (req, res) => {
   Habbit.findOne({userId,week}).then((n) => {
     habbit = n
   }).catch(()=>{  })
+  if(habbit == null ){
+    habbit = Habbit()
+  }
 
   habbit.week = week
   habbit.habbits = habbits

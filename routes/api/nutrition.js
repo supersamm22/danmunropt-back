@@ -19,6 +19,9 @@ const addNutrition = async (req, res) => {
     nutrition = n
   }).catch(()=>{  })
 
+  if(nutrition == null ){
+    nutrition = Nutrition()
+  }
   nutrition.wake_up = wake_up
   nutrition.comment = comment
   nutrition.alcohol = alcohol
