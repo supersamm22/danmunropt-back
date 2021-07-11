@@ -16,7 +16,10 @@ const addHabit = async (req, res) => {
 
   let habit = null
   let id = ""
+  console.log("1")
   const h = await Habit.findOne({ userId, week })
+  console.log("h", h)
+
   if (h) {
     habit = h
     id = h._id
@@ -28,6 +31,7 @@ const addHabit = async (req, res) => {
   habit.week = week
   habit.habits = habits
   habit.userId = userId
+  console.log("3")
 
   if (id) {
     Habit.findByIdAndUpdate(id, habit, {}, function (err) {
@@ -38,7 +42,8 @@ const addHabit = async (req, res) => {
       }
     });
   } else {
-    Habit.save((err, habit) => {
+    console.log("4")
+    habit.save((err, habit) => {
       if (err) {
         return res.status(404).json({ msg: err })
       } else {
@@ -46,9 +51,12 @@ const addHabit = async (req, res) => {
       }
     })
   }
+  console.log("10")
+
 }
 const getHabits = async (req, res) => {
   const { userId, week } = req.query;
+  console.log(req.query)
   if (!userId || !week) {
     return res.status(400).json({ msg: 'Fields are missing' });
   }
@@ -61,6 +69,6 @@ const getHabits = async (req, res) => {
   }
 }
 
-habitRouter.get('/', requireSignin, getHabits);
-habitRouter.post('/', requireSignin, addHabit);
+habitRouter.get('/', getHabits);
+habitRouter.post('/', addHabit);
 module.exports = habitRouter;
