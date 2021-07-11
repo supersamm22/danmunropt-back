@@ -14,15 +14,14 @@ const addNutrition = async (req, res) => {
     return res.status(400).json({ msg: 'Please enter all fields' });
   }
 
-  let nutrition = null
-  Nutrition.findOne({ userId, date }).then((n) => {
+  let nutrition = Nutrition()
+  let id = ""
+  const n = await Nutrition.findOne({ userId: userId, date: date })
+  if (n) {
+    id = n._id
     nutrition = n
-    console.log(n, date)
-  }).catch(() => { })
-
-  if (nutrition == null) {
-    nutrition = Nutrition()
   }
+
   nutrition.wake_up = wake_up
   nutrition.comment = comment
   nutrition.alcohol = alcohol
@@ -31,13 +30,24 @@ const addNutrition = async (req, res) => {
   nutrition.meals = meals
   nutrition.date = date
   nutrition.userId = userId
-  nutrition.update((err, nutrition) => {
-    if (err) {
-      return res.status(404).json({ msg: err })
-    } else {
-      return res.status(200).json({ nutrition: nutrition })
-    }
-  })
+
+  if (id) {
+    Nutrition.findByIdAndUpdate(id, nutrition, {}, function (err) {
+      if (err) {
+        return res.status(404).json({ msg: err })
+      } else {
+        return res.status(200).json({ nutrition: nutrition })
+      }
+    });
+  } else {
+    nutrition.save((err, nutrition) => {
+      if (err) {
+        return res.status(404).json({ msg: err })
+      } else {
+        return res.status(200).json({ nutrition: nutrition })
+      }
+    })
+  }
 }
 const getNutritions = async (req, res) => {
   const { userId, date } = req.query;

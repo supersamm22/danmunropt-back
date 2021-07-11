@@ -15,9 +15,12 @@ const addHabit = async (req, res) => {
   }
 
   let habit = null
-  Habit.findOne({ userId, week }).then((n) => {
-    habit = n
-  }).catch(() => { })
+  let id = ""
+  const h = await Habit.findOne({ userId, week })
+  if (h) {
+    habit = h
+    id = h._id
+  }
   if (habit == null) {
     habit = Habit()
   }
@@ -25,13 +28,24 @@ const addHabit = async (req, res) => {
   habit.week = week
   habit.habits = habits
   habit.userId = userId
-  habit.update((err, habit) => {
-    if (err) {
-      return res.status(404).json({ msg: err })
-    } else {
-      return res.status(200).json({ habit: habit })
-    }
-  })
+
+  if (id) {
+    Habit.findByIdAndUpdate(id, habit, {}, function (err) {
+      if (err) {
+        return res.status(404).json({ msg: err })
+      } else {
+        return res.status(200).json({ habit: habit })
+      }
+    });
+  } else {
+    Habit.save((err, habit) => {
+      if (err) {
+        return res.status(404).json({ msg: err })
+      } else {
+        return res.status(200).json({ habit: habit })
+      }
+    })
+  }
 }
 const getHabits = async (req, res) => {
   const { userId, week } = req.query;
