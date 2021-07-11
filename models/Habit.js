@@ -15,6 +15,7 @@ const WeakSchema = new Schema({
 
 const exerciseSchema = new Schema({
   userId: { type: String, required: true },
+  week: { type: Number, required: true },
   date: { type: Date, required: true , default:Date.now},
   habits: { type: [WeakSchema]}
 })
