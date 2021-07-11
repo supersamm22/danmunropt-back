@@ -62,6 +62,6 @@ const getHabits = async (req, res) => {
   }
 }
 
-habitRouter.get('/', getHabits);
-habitRouter.post('/', addHabit);
+habitRouter.get('/', requireSignin, getHabits);
+habitRouter.post('/', requireSignin, addHabit);
 module.exports = habitRouter;

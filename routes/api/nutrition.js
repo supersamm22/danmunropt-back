@@ -63,6 +63,6 @@ const getNutritions = async (req, res) => {
   }
 }
 
-nutritionRouter.get('/', getNutritions);
-nutritionRouter.post('/', addNutrition);
+nutritionRouter.get('/', requireSignin, getNutritions);
+nutritionRouter.post('/', requireSignin, addNutrition);
 module.exports = nutritionRouter;
