@@ -22,7 +22,7 @@ const authRouter = express.Router();
 authRouter.post("/login", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password
-   
+
   console.log(req.body)
   // Simple validation
   if (!email || !password) {
@@ -32,14 +32,14 @@ authRouter.post("/login", async (req, res) => {
   try {
     // Check for existing user
     const user = await User.findOne({ email });
-    if (!user) throw Error('User does not exist'); 
+    if (!user) throw Error('User does not exist');
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw Error('Invalid credentials');
 
     // you can return later and put JWT_SECRET instead of 'secret'
 
-    const token = jwt.sign({ id: user._id }, 'secret', { expiresIn: 3600 });
+    const token = jwt.sign({ id: user._id }, 'secret', { expiresIn: '365d' });
     if (!token) throw Error('Couldnt sign the token');
 
     res.status(200).json({
@@ -131,4 +131,3 @@ exports.requireSignin = expressJwt({
   algorithms: ['HS256']
 });
 
- 
