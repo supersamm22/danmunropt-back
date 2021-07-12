@@ -18,7 +18,7 @@ const exerciseSchema = new Schema({
   week: { type: Number, required: true },
   date: { type: Date, required: true, default: Date.now },
   habits: { type: [WeakSchema] }
-})
+}, { timestamps: true })
 
 const Exercise = mongoose.model('Habit', exerciseSchema);
 module.exports = Exercise;

@@ -20,7 +20,7 @@ const exerciseSchema = new Schema({
   water: { type: Number, required: false },
   date: { type: String, required: true },
   meals: { type: [MealSchema] }
-})
+}, { timestamps: true })
 
 const Exercise = mongoose.model('Nutrition', exerciseSchema);
 module.exports = Exercise;

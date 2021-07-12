@@ -17,7 +17,7 @@ const messocycleSchema = new Schema({
   date: { type: Date, required: true, default: Date.now },
   userId: { type: String, required: true },
   exercises: { type: [ExerciseSchema] }
-})
+}, { timestamps: true })
 
 const Exercise = mongoose.model('Messocycle', messocycleSchema);
 module.exports = Exercise;

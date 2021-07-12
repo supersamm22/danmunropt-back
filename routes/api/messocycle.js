@@ -53,10 +53,9 @@ const getMessocycles = async (req, res) => {
   if (!req.query.userId) {
     return res.status(404).json({ msg: "Id required" })
   }
-  const messocycle = await Messocycle.find({ userId: req.query.userId })
-  console.log(messocycle)
-  if (messocycle != null) {
-    return res.status(200).json(messocycle)
+  const messocycles = await Messocycle.find({ userId: req.query.userId }).sort({ "createdAt": -1 })
+  if (messocycles != null) {
+    return res.status(200).json(messocycles)
   } else {
     return res.status(404).json({ msg: "Unable to find messocycle" })
   }
