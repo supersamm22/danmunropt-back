@@ -10,7 +10,7 @@ const requireSignin = expressJwt({
 });
 const addNutrition = async (req, res) => {
   const { userId, wake_up, alcohol, alcohol_cal, water, date, meals, comment } = req.body;
-  if (!userId || !wake_up || !water || !date || !meals) {
+  if (!userId || !date || !meals) {
     return res.status(400).json({ msg: 'Please enter all fields' });
   }
 
