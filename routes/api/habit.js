@@ -9,7 +9,7 @@ const requireSignin = expressJwt({
   algorithms: ['HS256']
 });
 const addHabit = async (req, res) => {
-  const { week, userId, habits } = req.body;
+  const { week, userId, habits, min } = req.body;
   if (!userId || !week || !habits) {
     return res.status(400).json({ msg: 'Please enter all fields' });
   }
@@ -29,6 +29,7 @@ const addHabit = async (req, res) => {
   habit.week = week
   habit.habits = habits
   habit.userId = userId
+  habit.min = min
 
   if (id) {
     Habit.findByIdAndUpdate(id, habit, {}, function (err) {
