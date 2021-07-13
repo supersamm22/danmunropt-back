@@ -16,6 +16,7 @@ const exerciseSchema = new Schema({
   userId: { type: String, required: true },
   wake_up: { type: String, required: false },
   alcohol: { type: String, required: false },
+  alcohol_detail: { type: String, required: false },
   alcohol_cal: { type: Number, required: false },
   water: { type: Number, required: false },
   date: { type: String, required: true },
