@@ -11,7 +11,7 @@ const MealSchema = new Schema({
   comment: { type: String, required: false }
 })
 
-const exerciseSchema = new Schema({
+const nutritionSchema = new Schema({
   comment: { type: String, required: false },
   userId: { type: String, required: true },
   wake_up: { type: String, required: false },
@@ -23,5 +23,5 @@ const exerciseSchema = new Schema({
   meals: { type: [MealSchema] }
 }, { timestamps: true })
 
-const Exercise = mongoose.model('Nutrition', exerciseSchema);
-module.exports = Exercise;
+const Nutrition = mongoose.model('Nutrition', nutritionSchema);
+module.exports = Nutrition;

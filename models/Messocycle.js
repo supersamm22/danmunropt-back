@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ExerciseSchema = new Schema({
+const MessocycleSchema = new Schema({
   exercise: { type: String, required: false },
   sets: { type: Number, required: false },
   reps: { type: Number, required: false },
@@ -16,8 +16,8 @@ const messocycleSchema = new Schema({
   cool_down: { type: Number, required: false },
   date: { type: Date, required: true, default: Date.now },
   userId: { type: String, required: true },
-  exercises: { type: [ExerciseSchema] }
+  exercises: { type: [MessocycleSchema] }
 }, { timestamps: true })
 
-const Exercise = mongoose.model('Messocycle', messocycleSchema);
-module.exports = Exercise;
+const Messocycle = mongoose.model('Messocycle', messocycleSchema);
+module.exports = Messocycle;

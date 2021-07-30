@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const cors = require("cors");
 var morgan = require('morgan')
 const dotenv = require('dotenv');
@@ -12,19 +12,21 @@ const userRouter = require("./routes/api/users")
 const habitRouter = require("./routes/api/habit")
 const messocycleRouter = require("./routes/api/messocycle")
 const nutritionRouter = require("./routes/api/nutrition")
+const periodizationRouter = require("./routes/api/periodization")
 
 const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(morgan("dev"));
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.use(express.json());
 app.use('/', userRouter)
 app.use('/auth', authRouter);
 app.use('/messocycles', messocycleRouter)
 app.use('/nutritions', nutritionRouter)
 app.use('/habits', habitRouter)
+app.use('/periodizations', periodizationRouter)
 
 app.use(function (err, req, res, next) {
   if (err.name === "UnauthorizedError") {

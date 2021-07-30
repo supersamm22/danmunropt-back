@@ -13,13 +13,14 @@ const WeakSchema = new Schema({
   points: { type: Number, required: false }
 })
 
-const exerciseSchema = new Schema({
+const habitSchema = new Schema({
   userId: { type: String, required: true },
   week: { type: Number, required: true },
+  year: { type: Number, required: true, default: 2021 },
   min: { type: Number, required: false },
   date: { type: Date, required: true, default: Date.now },
   habits: { type: [WeakSchema] }
 }, { timestamps: true })
 
-const Exercise = mongoose.model('Habit', exerciseSchema);
-module.exports = Exercise;
+const Habit = mongoose.model('Habit', habitSchema);
+module.exports = Habit;
