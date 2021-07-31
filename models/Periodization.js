@@ -12,7 +12,7 @@ const periodizationSchema = new Schema({
   friday: { type: Number, required: false },
   saturday: { type: Number, required: false },
   sunday: { type: Number, required: false },
-  notes: { type: Number, required: false }
+  notes: { type: String, required: false }
 }, { timestamps: true })
 
 const Periodization = mongoose.model('Periodization', periodizationSchema);
