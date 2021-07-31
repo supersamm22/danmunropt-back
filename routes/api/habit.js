@@ -9,14 +9,14 @@ const requireSignin = expressJwt({
   algorithms: ['HS256']
 });
 const addHabit = async (req, res) => {
-  const { week, userId, habits, min } = req.body;
-  if (!userId || !week || !habits) {
+  const { week, userId, habits, min, year } = req.body;
+  if (!userId || !week || !habits || !year) {
     return res.status(400).json({ msg: 'Please enter all fields' });
   }
 
   let habit = null
   let id = ""
-  const h = await Habit.findOne({ userId, week })
+  const h = await Habit.findOne({ userId, week, year })
 
   if (h) {
     habit = h
@@ -27,6 +27,7 @@ const addHabit = async (req, res) => {
   }
 
   habit.week = week
+  habit.year = year
   habit.habits = habits
   habit.userId = userId
   habit.min = min

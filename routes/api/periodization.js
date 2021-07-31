@@ -58,11 +58,11 @@ const addPeriodization = async (req, res) => {
 
 }
 const getPeriodizations = async (req, res) => {
-  const { userId, week, year } = req.query;
-  if (!userId || !week || !year) {
+  const { userId, year } = req.query;
+  if (!userId || !year) {
     return res.status(400).json({ msg: 'Fields are missing' });
   }
-  const periodization = await Periodization.find({ userId, week, year })
+  const periodization = await Periodization.find({ userId, year })
   if (periodization != null) {
     return res.status(200).json(periodization)
   } else {
