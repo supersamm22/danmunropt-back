@@ -7,10 +7,22 @@ const jwt = require('jsonwebtoken');
 // import auth from '../../middleware/auth';
 // User Model
 const User = require('../../models/User.js');
+const { confirmEmail } = require('../../helper/mailHelper.js');
+const mailer = require('../../helper/mailer');
 
 // const { JWT_SECRET } = config;
 
 const authRouter = express.Router();
+
+const createEmailToken = (length = 14) => {
+  var text = "";
+  var possible = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  for (var i = 0; i < length; i++) {
+    var sup = Math.floor(Math.random() * possible.length);
+    text += i > 0 && sup == i ? "0" : possible.charAt(sup);
+  }
+  return text;
+};
 
 
 /**
@@ -101,6 +113,69 @@ authRouter.post('/register', async (req, res) => {
         name: savedUser.name,
         email: savedUser.email
       },
+    });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+authRouter.post('/forget', async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) throw Error('No user exists');
+    var emailToken = user._id + createEmailToken()
+    let html = confirmEmail(emailToken, user.name);
+    mailer.send(
+      "casseglass2021@gmail.com",
+      email,
+      "Reset password form danmunropt.com",
+      html
+    ).then(function (response) {
+      if (response && response.accepted.length > 0) {
+        user.resetToken = emailToken
+        User.findByIdAndUpdate(user._id, user, {}, function (err) {
+          if (err) {
+            return res.status(404).json({ msg: err })
+          }
+          return res.status(200).json({ msg: "Email sent" })
+        })
+      } else {
+        return res.status(404).json({ msg: "Email failed" })
+      }
+    }).catch(function (err) {
+      return res.status(404).json({ msg: `${err}` })
+    });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+authRouter.post('/reset', async (req, res) => {
+  const { password, token } = req.body;
+  if (!token || !password) {
+    return res.status(400).json({ msg: 'Please enter all fields' });
+  }
+
+  try {
+    const user = await User.findOne({ resetToken: token });
+    if (!user) throw Error('Invalid token');
+
+    const salt = await bcrypt.genSalt(10);
+    if (!salt) throw Error('Something went wrong with bcrypt');
+
+    const hash = await bcrypt.hash(password, salt);
+    if (!hash) throw Error('Something went wrong hashing the password');
+
+    user.resetToken = ""
+    user.password = hash
+
+    User.findByIdAndUpdate(user._id, user, {}, function (err) {
+      if (err) {
+        return res.status(404).json({ msg: err })
+      } else {
+        return res.status(200).json({ msg: "Password changed" })
+      }
     });
   } catch (e) {
     res.status(400).json({ error: e.message });

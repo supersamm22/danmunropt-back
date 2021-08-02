@@ -20,6 +20,10 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  resetToken: {
+    type: String,
+    required: false,
+  },
   register_date: {
     type: Date,
     default: Date.now,
